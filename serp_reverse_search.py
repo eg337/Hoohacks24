@@ -9,3 +9,10 @@ params = {
 search = GoogleSearch(params)
 results = search.get_dict()
 inline_images = results["inline_images"]
+
+print(results)
+print(len(results))
+
+
+
+
