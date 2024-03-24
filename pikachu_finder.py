@@ -56,7 +56,7 @@ def source_image(image_url):
 
 
   #regex = "((artist|owner|credit( to)?|twt|twitter|twi|ig|instagram|insta|op|facebook|fb|pixiv):?\s*@?([^\s])+)"
-  regex = "((artist|owner|credit( to)?|twt|twitter|twi|ig|instagram|insta|op|facebook|fb|pixiv):?\s*@?([^\s]+))+"
+  regex = "(\s(artist|owner|credit( to)?|twt|twitter|twi|ig|instagram|insta|op|facebook|fb|pixiv):?\s+@?([\w_]+))"
   driver = webdriver.Chrome()
 
   texts = []
@@ -71,17 +71,28 @@ def source_image(image_url):
       matches.append(x)
 
   print(matches)
+  posters = []
   for i in range(len(links)):
       print(i)
       print(links[i])
   print(texts[0])
-  regex = "(\s(artist|owner|credit( to)?|twt|twitter|twi|ig|instagram|insta|op|facebook|fb|pixiv):?\s+@?([\w_]+))+"
+  regex = "(\s(artist|owner|credit( to)?|twt|twitter|twi|ig|instagram|insta|op|facebook|fb|pixiv):?\s+@?([\w_]+))"
   #made there be a space at the start of the word bc of things like "top: 0"
   #changed the artists name from non white space chars to alphanumeric plus underscores, bc of config = ...
   #
   for i in range(len(texts)):
       x = re.findall(regex, texts[i])
-      print(i)
+      #print(i)
       if len(x) > 0:
-          print(x)
-          return x[0][3]
+          #print(x)
+        #   if (x != None and x[0][3] != None):
+          web_source = x[0][1]
+          if (web_source == "twt" or web_source == "twitter" or web_source == "twi"):
+              web_source = "twitter"
+          elif (web_source == "ig" or web_source == "insta" or web_source == "instagram"):
+              web_source = "instagram"
+          elif (web_source == "fb" or web_source == "facebook"):
+              web_source = "facebook"
+          
+          return web_source + " " + (x[0][3])
+          
